@@ -1,71 +1,171 @@
-WeatherGuardNet
+# WeatherGuardNet
 
-WeatherGuardNet is a computer vision project focused on improving object detection in extreme weather conditions such as rain, fog, snow, sandstorms, and night glare.
+## About the Project
 
-In real-world environments, object detection models often perform poorly when visibility is low. WeatherGuardNet tries to solve this problem by combining diffusion-based image restoration, object detection, and an adaptive learning mechanism that allows the model to adjust to new weather conditions.
+WeatherGuardNet is a computer vision project for detecting objects in video under different environmental conditions such as clear weather, rain, fog, and glare.
 
-The main goal of the project is to improve detection accuracy even when weather conditions change or become severe.
+The project uses **YOLOv8** for object detection and **OpenCV** for image enhancement. Different detection settings are used depending on the weather condition selected by the user.
 
-Project Idea
+The application is built using **Streamlit**, so the user can upload a video, select the environmental condition, process the video, and download the result.
 
-Many object detection systems work well under normal lighting and weather conditions but struggle when the environment becomes challenging. Heavy fog, rain, or night glare can hide important objects in a scene and reduce model performance.
+## What the Project Does
 
-WeatherGuardNet addresses this issue by restoring degraded images before detection and allowing the system to adapt during inference. This helps the model maintain reliable performance even when it encounters weather conditions that were not present during training.
+The application follows these main steps:
 
-How the System Works
+1. Upload a video.
+2. Select the environmental condition.
+3. Enhance the video frames using OpenCV.
+4. Run YOLOv8 object detection.
+5. Filter detections based on confidence and bounding-box size.
+6. Display the processed video.
+7. Download the processed video.
 
-The system follows a simple pipeline:
+## Environmental Conditions
 
-An input image or video frame is provided to the system.
+The application currently supports four conditions:
 
-The model estimates the weather condition affecting the scene.
+* Clear
+* Rainy
+* Foggy
+* Glare
 
-A diffusion-based model restores the degraded image.
+Each condition uses different image enhancement settings and detection confidence thresholds.
 
-Important visual features are extracted from the restored image.
+## Technologies Used
 
-An object detection model identifies objects and their locations.
+* Python
+* YOLOv8
+* Ultralytics
+* OpenCV
+* PyTorch
+* NumPy
+* Pillow
+* Streamlit
 
-A test-time adaptation module updates the model to improve performance in new weather conditions.
+## Model
 
-Pipeline Input Image ↓ Weather Detection ↓ Diffusion-based Image Restoration ↓ Feature Extraction ↓ Object Detection ↓ Output Detected Objects ↓ Model Adaptation for Next Frame Technologies Used
+The project uses the **YOLOv8 Nano (****`yolov8n.pt`****)** model for object detection.
 
-The implementation uses the following tools and technologies:
+YOLOv8 is used because it provides a good balance between detection speed and accuracy, making it suitable for video-based computer vision applications.
 
-DDPM (Denoising Diffusion Probabilistic Model) – used for image restoration
+## Image Enhancement
 
-Stable Diffusion – helps generate clearer reconstructed images
+Before object detection, the video frames are processed using OpenCV.
 
-YOLO (You Only Look Once) – used for object detection
+The enhancement pipeline includes techniques such as:
 
-Test-Time Adaptation (TTA) – allows the model to adapt during inference
+* Gamma correction
+* CLAHE
+* Bilateral filtering
+* Sharpening
+* Contrast enhancement
 
-AdaBN (Adaptive Batch Normalization) – helps align features during adaptation
+The purpose of these steps is to improve the visual quality of frames before they are passed to the object detection model.
 
-PyTorch – main deep learning framework used in development
+## Project Structure
 
-CUDA – enables GPU acceleration for faster training and inference
+```text
+WeatherGuardNet/
+├── README.md
+├── WhatsApp Video 2026-08-25 at 11.44.29 AM.mp4
+├── app.py
+└── requirements.txt
+```
 
-Research Motivation
+## How to Run
 
-Existing vision models have several limitations when working in adverse weather environments:
+### 1. Clone the Repository
 
-Many models only handle one type of weather degradation
+```bash
+git clone https://github.com/shahidkhanmohamed10/weatherguardnet.git
+```
 
-Image restoration and object detection are often treated as separate tasks
+Go to the project folder:
 
-Most systems cannot adapt to new weather conditions in real time
+```bash
+cd weatherguardnet
+```
 
-WeatherGuardNet attempts to solve these problems by combining restoration, detection, and adaptation into one unified system.
+### 2. Install the Dependencies
 
-Expected Outcome
+```bash
+pip install -r requirements.txt
+```
 
-With this approach, the system aims to:
+### 3. Run the Streamlit Application
 
-Improve image clarity in difficult weather conditions
+```bash
+streamlit run app.py
+```
 
-Detect objects more reliably in degraded environments
+The application will open in your browser.
 
-Maintain stable performance across different weather scenarios
+### 4. Use the Application
 
-Adapt to unseen weather conditions without retraining
+* Upload a video file.
+* Select the environmental condition.
+* Start processing.
+* View the detected objects in the output video.
+* Download the processed video.
+
+## Requirements
+
+The main Python libraries required are:
+
+* streamlit
+* torch
+* torchvision
+* torchaudio
+* ultralytics
+* opencv-python-headless
+* numpy
+* Pillow
+
+The project can run on CPU, although a GPU can provide faster video processing and object detection.
+
+## Example Workflow
+
+```text
+Input Video
+     ↓
+Select Weather Condition
+     ↓
+OpenCV Image Enhancement
+     ↓
+YOLOv8 Object Detection
+     ↓
+Confidence & Bounding Box Filtering
+     ↓
+Processed Video
+     ↓
+Download Result
+```
+
+## Current Limitations
+
+The weather condition is currently **selected by the user**. The system does not automatically classify whether a video is rainy, foggy, clear, or affected by glare.
+
+The project also uses fixed enhancement parameters and confidence thresholds for each selected condition.
+
+The current implementation has not been evaluated on a dedicated weather-specific object detection benchmark.
+
+## Future Improvements
+
+Some possible improvements are:
+
+* Add automatic weather-condition classification.
+* Train or fine-tune YOLOv8 using weather-specific datasets.
+* Compare object detection performance before and after image enhancement.
+* Test the system on larger and more varied video datasets.
+* Improve processing speed for real-time applications.
+
+## Author
+
+**Shahid Khan Mohammed**
+
+GitHub:
+https://github.com/shahidkhanmohamed10
+
+## Repository
+
+https://github.com/shahidkhanmohamed10/weatherguardnet
